@@ -1,0 +1,114 @@
+{% extends "ecommerce/base.html" %}
+{% load static %}
+{% block title %}{{ product }}{% endblock %}
+{% block content %}
+<div class="product-d container-fluid row p-0">
+    <div class="col-12 col-sm-6">
+        <img src="{% get_static_prefix %}ecommerce/images/products/{{ product.title }}.png" alt="product">
+    </div>
+    <div class="col-12 col-sm-6">
+        <div class="product-details d-flex flex-column gap-2">
+            <div class="d-flex justify-content-start">
+                <h1>{{ product.title }}</h1>
+            </div>
+            <div class="review-preview d-flex justify-content-start">
+                <div class="stars"></div>
+                <p># reviews</p>
+            </div>
+            <div class="separator"></div>
+            <div class="d-flex justify-content-between">
+                <p class="lead">${{ product.price }}</p>
+                {% if product.is_active %}
+                <div class="d-flex flex-column align-items-end justify-content-center gap-2">
+                    <div class="select-size d-flex justify-content-end gap-3">
+                        <p class="my-auto">Size</p>
+                        <select class="form-select" id="select-size">
+                            <option class="bg-white" selected>Regular</option>
+                            <option class="bg-white" value="Small" {% if product.small_in_stock == False %}disabled{% endif %}>Small</option>
+                            <option class="bg-white" value="Mini" {% if product.mini_in_stock == False %}disabled{% endif %}>Mini</option>
+                            </select>
+                    </div>
+                    <div class="select-quantity d-flex justify-content-end gap-3">
+                        <p class="my-auto">Qty</p>
+                        <div class="select">
+                            <select class="form-select" id="select-qty">
+                                <option class="bg-white" value="1" selected>1</option>
+                                
+                                <option class="bg-white" value="2">2</option>
+                                <option class="bg-white" value="3">3</option>
+                                <option class="bg-white" value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="separator"></div>
+            <p>{{ product.description }}</p>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="btn-separator"></div>
+                <div class="d-flex justify-content-end">
+                    {% if product.is_active %}
+                    <a class="btn btn-gradient bg-purple" id="add-btn" value="{{product.id}}">Add To Cart</a>
+                    {% else %}
+                    <p class="fw-bold">OUT OF STOCK</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="suggestions-container ">
+    <img class="blue-wave-img img-fluid" src="{% static 'ecommerce/images/icons/blue wave.png' %}">
+    <div class="suggestions container-fluid d-flex flex-column align-items-center justify-content-center">
+        
+        <h1>You Also Might Like</h1>
+    </div>
+</div>
+<div class="reviews-container container-fluid d-flex flex-column justify-content-center align-items-center">
+    <h1>Customer Reviews </h1>
+    <div class="d-flex flex-column align-items-center">
+        {% for review in reviews %}
+            <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-center">
+                        <p class="lead">{{ review.customer }}</p>
+                        <p>{{ review.date }}</p>
+                    </div>
+                    <div class="review-separator"></div>
+                </div>
+                <div class="d-flex flex-column justify-content-center">
+
+                </div>
+                <div class="d-flex flex-column justify-content-center">
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+-->
+
+<script>
+    $(document).on('click', '#add-btn', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:cart_add" %}',
+            data: {
+                productid: $('#add-btn').attr("value"),
+                productsize: $('#select-size option:selected').text(),
+                productqty: $('#select-qty option:selected').text(),
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'post'
+            },
+            success: function (json) {
+                document.getElementById("cart-qty").innerHTML = json.qty 
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    });
+</script>
+
+{% endblock %}

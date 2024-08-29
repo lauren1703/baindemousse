@@ -1,0 +1,43 @@
+{% extends "ecommerce/base.html" %}
+{% load static %}
+{% block title %}PayNow/PayLah Instructions{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="col-md-12">
+            <div class="d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row mx-5">
+                        <div class="col-12 mx-auto">
+                            <h2>PayNow/PayLah Instructions</h2>
+                        </div>
+                        <div class="col-12 mx-auto mt-3">
+                            <div class="d-flex justify-content-center gap-2">
+                                <h1>1.</h1>
+                                <div class="text-center">
+                                    <p>Scan the QR code using Scan & Pay on your banking app</p>
+                                    <p>OR</p>
+                                    <p>Save the QR code image and use Scan & Pay on your banking app</p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center my-2">
+                                <img class="w-25 paynowcode-img" src="{% static 'ecommerce/images/icons/paynow code.png' %}" alt="paynow code">
+                            </div>
+                            <h3>${{ total }}</h3>
+                            <div class="d-flex justify-content-center gap-2">
+                                <h1>2.</h1>
+                                <p class="my-auto">Enter the amount above and click 'Pay Now'</p>
+                            </div>
+                            <div class="d-flex gap-5 justify-content-center">
+                                <a class="btn btn-gradient btn-continue bg-purple" href="{% url "orders:order_confirm" order.id total %}">I've paid!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

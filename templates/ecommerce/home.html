@@ -1,0 +1,132 @@
+{% extends "ecommerce/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <!--homepage collage section-->
+        <div class="collage-container img-collage">
+            <img class="img-fluid d-none d-md-block" src="{% static 'ecommerce/images/icons/home img collage.png' %}" alt="collage">
+            <img class="img-fluid d-none d-sm-block d-md-none" src="{% static 'ecommerce/images/icons/home img collage tablet.png' %}" alt="collage">
+            <img class="img-fluid d-block d-sm-none" src="{% static 'ecommerce/images/icons/home img collage mobile.png' %}" alt="collage">
+            <div class="shop-row container-fluid">
+                <a class="btn shop-btn" href="{% url "ecommerce:all_view" %}">Shop Now</a>
+            </div> 
+            <div class="position-absolute learn-row container-fluid d-flex justify-content-center">
+                <a class="btn outline-btn ingredients-btn ">Learn more about our ingredients</a>
+            </div> 
+        </div>
+        <!--photo carousel & benefits section-->
+        <div class="d-md-flex flex-md-row-reverse justify-content-md-evenly ms-md-5">
+            <img class="img-fluid benefits" src="{% static 'ecommerce/images/icons/benefits.png' %}" alt="benefits">
+            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="3000">
+                    <img src="{% static 'ecommerce/images/photos/foam.png' %}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="{% static 'ecommerce/images/photos/bubbles.png' %}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="{% static 'ecommerce/images/photos/blue penguin.png' %}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="{% static 'ecommerce/images/photos/baby dinos.png' %}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="{% static 'ecommerce/images/photos/packaging.jpg' %}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="{% static 'ecommerce/images/photos/lavender.png' %}" class="d-block w-100" alt="...">
+                </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <!--charity donations section-->
+        <div class="row world-row position-relative">
+            <div class="col-md-8 d-flex flex-column justify-content-center p-3 p-md-0">
+                <h1 class="world-header text-center">We aim to make a difference in the world.</h1>
+                <p class="world-text lead text-center">While clean water may run right from your bathtub faucet, many families in developing countries don't have the same luxury. Here at Bain de Mousse, we believe that no one should worry about safe drinking water.</p>
+                <p class="world-text lead text-center"><strong><em>That's why 30% of our profit is donated to charities providing access to clean water in rural communities.</em></strong></p>
+                <div class="learn-row container-fluid d-flex justify-content-center">
+                    <a class="btn outline-btn">Learn more about our giving</a>
+                </div> 
+            </div>
+            <img class="world-img col-md-4 h-100 ps-md-4 pe-md-0" src="{% static 'ecommerce/images/photos/earth.png' %}" alt="earth">
+            <img class="hearts-img position-absolute" src="{% static 'ecommerce/images/icons/hearts.png' %}" alt="hearts">
+        </div>
+        <!--featured product slider-->
+        
+            <img class="img-fluid foam-img" src="{% static 'ecommerce/images/photos/foam 1.jpg' %}" alt="foam 1">
+            <h1 class="display-5 text-center my-4">Featured Products</h1>
+            <div class="product-slider pb-4 px-4">
+                <ul id="autoWidth" class="cs-hidden">
+                        {% for product in featured_products %}
+                        <li class="item-a">
+                            <a href="{{ product.get_absolute_url }}">
+                                <div class="box mx-3">
+                                    <div class="slide-img position-relative">
+                                        <img src="{% get_static_prefix %}ecommerce/images/products/{{ product.title }}.png">
+                                        <div class="overlay position-absolute">
+                                            <button type="button" class="btn">Buy Now</button>
+                                        </div>
+                                    </div>
+                                    <div class="detail-box position-relative d-flex align-items-center">
+                                        <p class="m-0 col-9 title lead text-center">{{ product.title }}</p>
+                                        <p class="m-0 col-3 price text-center">${{ product.price }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                </ul>  
+            </div>
+            <img class="img-fluid foam-img" src="{% static 'ecommerce/images/photos/foam 2.jpg' %}" alt="foam 2">
+        <!--custom-->
+            <div class="custom-container">
+                <div class="row custom-content px-5">
+                    <div class="col-md-6">
+                        <img class="img-fluid custom-img" src="{% static 'ecommerce/images/photos/squidgame.png' %}" alt="custom">
+                    </div>
+                    <div class="col-md-6 text-center my-auto">
+                        <h1 class="mb-4">Can't find a design you want?</h1>
+                        <p class="lead mb-4">We can make your desired bath product with your choice of colours, scents, and design!</p>
+                        <a class="btn outline-btn mx-auto" href="{% url "ecommerce:custom_view" %}">Customise Your Own</a>
+                    </div>
+                </div>
+                <img class="wave-1 img-fluid w-100" src="{% static 'ecommerce/images/icons/wave 5.png' %}" alt="wave">
+            </div>
+        <!--featured categories-->
+            <div class="category-container">
+                <div class="row px-5">
+                    <h1 class="mb-4">Featured Categories</h1>
+                    <div class="row">
+                        <div class="row category-content">
+                            {% for c in categories %}
+                            <a class="col-md-3" href="{{ c.get_absolute_url }}">
+                                <div class="d-flex flex-column">
+                                    <img class="rounded-circle mb-3" src="{% get_static_prefix %}ecommerce/images/categories/{{ c.name}}.png">
+                                    <p class="h5 text-center">{{ c.name }}</p>
+                                </div>
+                            </a>
+                            {% endfor %}
+                            <a class="col-md-3" href="{% url 'ecommerce:all_view'%}">
+                                <div class="d-flex flex-column h-100">
+                                    <img class="rounded-circle mb-3 h-100" src="{% static 'ecommerce/images/icons/logo background.png' %}">
+                                    <p class="h5 text-center shop-all">Shop All</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    
+{% endblock %}

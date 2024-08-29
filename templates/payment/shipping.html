@@ -1,0 +1,331 @@
+{% extends "ecommerce/base.html" %}
+{% load static %}
+{% block title %}Shipping Details{% endblock %}
+
+{% block content %}
+<div class="shipping">
+    <!--header-->
+    <div class="position-relative">
+        <div class="header-container"></div>
+        <img class="wave-img" src="{% static 'ecommerce/images/icons/wave 9.png' %}" alt="wave">
+        <div class="header-text container-fluid d-flex flex-column justify-content-center gap-3">
+            <div class="d-flex justify-content-around">
+                <h4 class="d-none d-md-block">1. Shopping Cart</h2>
+                <h4 class="">2. Shipping Details</h2>
+                <h4 class="d-none d-md-block">3. Payment Options</h2>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="separator-header d-none d-md-block"></div>
+                <div class="separator-bold"></div>
+                <div class="separator-header d-none d-md-block"></div>
+            </div>
+        </div>
+    </div>
+    <!--content-->
+    <div class="info container-fluid row content mt-4 mx-1">
+        <!--shipping details-->
+        <div class="details col-md-7 col-md d-flex flex-column gap-2">
+            <div class="d-flex justify-content-start">
+                <h3>Shipping Options</h3>
+            </div>
+            <hr class="">
+            <ul class="nav nav-tabs shipping-options" id="myTab" role="tablist">
+                <li class="nav-item mb-0" role="presentation">
+                  <button class="nav-link active mb-0" id="delivery-tab" data-bs-toggle="tab" data-bs-target="#delivery-tab-pane" type="button" role="tab" aria-controls="delivery-tab-pane" aria-selected="true"><h5 class="my-auto">Delivery</h5></button>
+                </li>
+                <li class="nav-item mb-0" role="presentation">
+                  <button class="nav-link mb-0" id="selfcollect-tab" data-bs-toggle="tab" data-bs-target="#selfcollect-tab-pane" type="button" role="tab" aria-controls="selfcollect-tab-pane" aria-selected="false"><h5 class="my-auto">Self-Collect</h5></button>
+                </li>
+            </ul>
+              <div class="tab-content" id="myTabContent">
+                <!--delivery-->
+                <div class="tab-pane fade show active" id="delivery-tab-pane" role="tabpanel" aria-labelledby="delivery-tab" tabindex="0">
+                    <div class="row mt-3">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <p class="text-center">Delivery with Ninja Van will take around 3-5 days to arrive. **NOTE that orders made on weekends will take an additional 1 day to arrive.</p>
+                            <div class="row">
+                                <div class="col-4">
+                                    <img class="ninjavan-img" src="{% static 'ecommerce/images/icons/ninjavan.webp' %}" alt="ninjavan">
+                                </div>
+                                <div class="col-8">
+                                    <img class="ninjavan-logo" src="{% static 'ecommerce/images/icons/ninjavan logo.png' %}" alt="ninjavan">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                    <div class="d-flex justify-content-start">
+                        <h4>Shipping Details</h4>
+                    </div>
+                    <hr>
+                    <div class="customer-info d-flex flex-column mt-4">
+                        <form method="post" action="{% url 'payment:delivery' %}">
+                            {% csrf_token %}
+                            <div class="row g-3 mb-4">
+                            <div class="col-sm-6">
+                                <label for="firstName" class="form-label">First Name*</label>
+                                <input type="text" class="form-control" name="firstname" placeholder="" required>
+                                <div class="invalid-feedback">
+                                Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="lastName" class="form-label">Last Name*</label>
+                                <input type="text" class="form-control" name="lastname" placeholder="" required>
+                                <div class="invalid-feedback">
+                                Valid last name is required.
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="address" class="form-label">Address*</label>
+                                <input type="text" class="form-control" name="address" placeholder="1234 Main St" required>
+                                <div class="invalid-feedback">
+                                Please enter your shipping address.
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="unitNo" class="form-label">Unit No. <span class="text-muted">(If applicable)</span></label>
+                                <input type="text" class="form-control" name="unitno" placeholder="#01-01">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="postCode" class="form-label">Postcode*</label>
+                                <input type="text" class="form-control" name="postcode" placeholder="" required>
+                                <div class="invalid-feedback">
+                                Postal code required.
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="phoneNumber" class="form-label">Phone Number (Enter 8 digits)*</label>
+                                <input type="text" class="form-control" name="phonenumber" placeholder="+65" required>
+                                <div class="invalid-feedback">
+                                Please enter a valid phone number.
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">I want my order by...</label>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <input class="form-control" name="datedelivery" id="datedelivery" type='date'>
+                                    </div>
+                                    <div class="dateby col-4 d-flex justify-content-center">
+                                        <div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
+                                            <input type="checkbox" class="btn-check" name="anytime" id="btncheck1" autocomplete="off">
+                                            <label class="btn" for="btncheck1">Any time</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            </div>
+                            <hr>
+                            <div class="buttons d-flex justify-content-center">
+                                <a class="btn outline-btn btn-continue" href="{% url "cart:cart_view" %}">Back To Cart</a>
+                                <button type="submit" class="btn btn-gradient btn-continue bg-purple" href="{% url "payment:delivery" %}">Continue To Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--self-collect-->
+                <div class="tab-pane fade" id="selfcollect-tab-pane" role="tabpanel" aria-labelledby="selfcollect-tab" tabindex="0">
+                    <div class="row mt-3">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <p class="text-center">Pick up location around Valley Point (address will be shared after payment)</p>
+                            <img class="map-img" src="{% static 'ecommerce/images/icons/map.png' %}" alt="map">
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                    <div class="d-flex justify-content-start mt-4">
+                        <h4>Pick-Up Details</h4>
+                    </div>
+                    <hr>
+                    <div class="customer-info d-flex flex-column mt-4">
+                        <form method="post" action="{% url 'payment:self_collect' %}">
+                            {% csrf_token %}
+                            <div class="row g-3 mb-2">
+                                <div class="col-sm-6">
+                                    <label for="firstName" class="form-label">First Name*</label>
+                                    <input type="text" class="form-control" name="firstname" placeholder="" required>
+                                    <div class="invalid-feedback">
+                                    Valid first name is required.
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="lastName" class="form-label">Last Name*</label>
+                                    <input type="text" class="form-control" name="lastname" placeholder="" required>
+                                    <div class="invalid-feedback">
+                                    Valid last name is required.
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="phoneNumber" class="form-label">Phone Number (Enter 8 digits)*</label>
+                                    <input type="text" class="form-control" name="phonenumber" placeholder="+65" required>
+                                    <div class="invalid-feedback">
+                                    Please enter a valid phone number.
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="d-flex flex-column">
+                                        <label class="form-label">I want to collect my order on...</label>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <p id="text"></p>
+                                                <input class="form-control" name="datepickup" type='datetime-local'></input>
+                                            </div>
+                                            <div class="dateby col-4 d-flex justify-content-center">
+                                                <div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
+                                                    <input type="checkbox" class="btn-check" name="anytime" id="btncheck2" autocomplete="off">
+                                                    <label class="btn" for="btncheck2">Any time</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-3">
+                            <div class="buttons d-flex justify-content-center">
+                                <a class="btn outline-btn btn-continue" href="{% url "cart:cart_view" %}">Back To Cart</a>
+                                <button type="submit" class="btn btn-gradient btn-continue bg-purple" href="{% url "payment:self_collect" %}">Continue To Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+        <!--summary-->
+        <div class="summary col-md-5 d-flex justify-content-center mt-5 mt-md-0">
+            <div class="summary-bg bg-white p-5">
+                <div class="summary-container d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-start">
+                        <h3>Summary</h3>
+                    </div>
+                    <hr>
+                    <div class="summary-products d-flex flex-column">
+                        {% for item in cart %}
+                        {% with product=item.product %}
+                        <div data-index="{{product.id}}" class="product d-flex justify-content-between align-items-center">
+                            <a href="{{ product.get_absolute_url }}">
+                                <div class="d-flex align-items-center">
+                                    <div class="product-img-container d-flex">
+                                        <img class="product-img" src="{% get_static_prefix %}ecommerce/images/products/{{ product.title }}.png" alt="product">
+                                    </div>
+                                    <div class="product-info d-flex flex-column justify-content-center">
+                                        <p class="text">{{ product.title }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="edit-product d-flex flex-column align-items-center justify-content-center">
+                                <p class="m-0 text">${{ item.total_price }}</p>
+                                <p class="m-0 text">{{ item.qty }}x</p>
+                            </div>
+                        </div>
+                        {% endwith %}
+                        {% endfor %}
+                        
+                    </div>
+                    <hr>
+
+                    
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <p class="text">SUBTOTAL</p>
+                        <p class="text">${{cart.get_subtotal_price}}</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="text">SHIPPING</p>
+                        <p class="text">$<span id="shipping-cost">{{shipping_cost}}</span></p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <p class="text">TOTAL</p>
+                        <p class="text">$<span id="total">{{total_cost}}</span></p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="charity-text d-flex align-items-center p-3">
+                            <p class="lead text-center m-auto">$<span id="charity-total">{{cart.get_charity_subtotal}}</span> of your order goes to helping transform children's lives with safe water!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    var today = new Date();
+    var dd = today.getDate()+3;
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(mm % 2 == 0 && dd > 30) {
+        dd -= 30;
+        mm++;
+    }
+    if(mm == 2 && d > 28) {
+        dd -=28;
+        mm++;
+    }
+    if(dd > 31) {
+        dd -= 31;
+        mm++;
+    }
+    if(mm > 12) {
+        mm = 1;
+        yyyy++;
+    }
+    if(dd<10){
+            dd='0'+dd;
+        } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+    
+
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("datedelivery").setAttribute("min", today);
+
+    //Update delivery cost
+    $(document).on('click', '#delivery-tab', function (e) {
+        e.preventDefault();
+        console.log("hello")
+        $.ajax({
+            type: 'POST',
+            url: '{% url "payment:shipping_update" %}',
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'delivery'
+            },
+            success: function (json) {
+                document.getElementById("shipping-cost").innerHTML = json.shippingcost
+                document.getElementById("total").innerHTML = json.total
+            },
+            error: function (xhr, errmsg, err) {
+            }
+        });
+    });
+
+    //Update self-collect cost
+    $(document).on('click', '#selfcollect-tab', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "payment:shipping_update" %}',
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'selfcollect'
+            },
+            success: function (json) {
+                document.getElementById("shipping-cost").innerHTML = json.shippingcost
+                document.getElementById("total").innerHTML = json.total
+            },
+            error: function (xhr, errmsg, err) {
+            }
+        });
+    });
+</script>
+
+{% endblock %}

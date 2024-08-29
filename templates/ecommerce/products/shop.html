@@ -1,0 +1,47 @@
+{% extends "ecommerce/base.html" %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="position-relative">
+    <div class="header-container container-fluid d-flex align-items-center justify-content-center">
+        <h1 class="">Shop {{ category }}</h1>
+    </div>
+    <img class="wave-img" src="{% static 'ecommerce/images/icons/wave 9.png' %}" alt="wave">
+</div>
+
+<div class="product-container container-fluid d-flex justify-content-center flex-wrap">
+    {% for product in products %}
+    <div class="position-relative product">
+        <div {% if product.is_active == False %}class=" position-relative product-disabled"{% else %}class="position-relative"{% endif %}>
+            <a href="{{ product.get_absolute_url }}">
+                <div class="box position-relative">
+                    <div class="slide-img position-relative">
+                        <img class="product-img" src="{% get_static_prefix %}ecommerce/images/products/{{ product.title }}.png" alt="image">
+                    </div>
+                    <div class="detail-box position-relative d-flex align-items-center">
+                        <p class="m-0 col-9 title lead text-center">{{ product.title }}</p>
+                        <p class="m-0 col-3 price text-center">${{ product.price }}</p>
+                    </div>
+                </div>
+                
+            </a>
+        </div>
+        {% if product.is_active == False %}
+                <div class="outofstock position-absolute container-fluid d-flex justify-content-center">
+                    <p class="outofstock-text fw-bold fs-3">OUT OF STOCK</p>
+                </div>
+            {% endif %}
+    </div>
+    
+    {% endfor %}
+</div>
+
+    
+
+
+{% endblock %}

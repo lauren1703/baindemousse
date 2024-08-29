@@ -1,0 +1,78 @@
+{% extends "../../ecommerce/base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+  <div class="position-relative">
+    <div class="header-container "></div>
+    <img class="wave-img" src="{% static 'ecommerce/images/icons/wave 9.png' %}" alt="wave">
+    <div class="header-text container-fluid d-flex flex-column justify-content-center gap-1">
+        <h2 class="mb-0">Your Dashboard</h2>
+    </div>
+  </div>
+  <div class="container orders" style="max-width: 1000px">
+    <div class="col-12 d-flex justify-content-between">
+      <div>Manage your <b>orders</b> and personal details</div>
+      <div><a class="text-decoration-underline" href="{% url "account:edit_details" %}">Change Details</a></div>
+    </div>
+    <hr />
+  </div>
+  <div class="container" style="max-width: 1000px">
+    {% for order in orders %}
+    <div class="row g-3">
+      
+      <div class="order-header col-12 p-3 d-flex justify-content-between">
+        <div class="d-flex d-flex-inline">
+
+          <div class="pe-3">{{ order.created }}</div>
+          
+          <p>Order status: <span>{{ order.get_status_display }}</span></p>
+        </div>
+        <div class="text-end">
+          Total paid: <span class="fw-bold">${{ order.total }}</span>
+        </div>
+      </div>
+      <div class="dashboard col-md-5 col-lg-4 order-md-last px-4 order-3">
+          <a class="btn outline-btn leave-review-btn w-100" href="{% url "orders:view_order" order.id %}">View Order</a>
+          {% if order.status == "received"  %}
+          <a class="btn outline-btn leave-review-btn w-100" href="#">Leave a review</a>
+          {% endif %}
+      </div>
+
+      <div class="summary-products col-md-7 col-lg-8 py-0 px-4">
+
+        {% for item in order.items.all %}
+
+        <div data-index="{{item.id}}" class="product d-flex justify-content-between align-items-center">
+          <a href="{{ item.product.get_absolute_url }}">
+              <div class="d-flex align-items-center">
+                  <div class="product-img-container d-flex">
+                      <img class="product-img" src="{% get_static_prefix %}ecommerce/images/products/{{ item.product.title }}.png" alt="product">
+                  </div>
+                  <div class="product-info d-flex flex-column justify-content-center">
+                      <p class="text">{{ item.product|title }}</p>
+                  </div>
+              </div>
+          </a>
+          <div class="edit-product d-flex flex-column align-items-center justify-content-center">
+              <p class="m-0 text">${{ item.price }}</p>
+              <p class="m-0 text">{{ item.quantity }}x</p>
+          </div>
+      </div>
+        
+        {% endfor %}
+
+
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+
+
+
+
+
+
+{% endblock %}

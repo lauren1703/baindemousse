@@ -1,0 +1,117 @@
+{% extends "ecommerce/base.html" %}
+{% load static %}
+{% block title %}Order Confirmed{% endblock %}
+
+{% block content %}
+
+<div class="position-relative order-confirm">
+    <div class="header-container"></div>
+    <img class="wave-img" src="{% static 'ecommerce/images/icons/wave 9.png' %}" alt="wave">
+    <div class="header-text container-fluid d-flex flex-column justify-content-center gap-1">
+        <h2 class="mb-0">Thank you for ordering!</h2>
+        <p class="text-center">An email receipt has been sent :)</p>
+    </div>
+</div>
+
+<div class="row order-confirm">
+    <div class="summary col-md-6 d-flex justify-content-center mt-5 mt-md-0">
+        <div class="summary-bg bg-white p-5">
+            <div class="summary-container d-flex flex-column gap-2">
+                <div class="d-flex justify-content-start">
+                    <h3>Summary</h3>
+                </div>
+                <hr>
+                <div class="summary-products d-flex flex-column">
+                    {% for item in order.items.all %}
+                    <div data-index="{{item.id}}" class="product d-flex justify-content-between align-items-center">
+                        <a href="{{ item.product.get_absolute_url }}">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img-container d-flex">
+                                    <img class="product-img" src="{% get_static_prefix %}ecommerce/images/products/{{ item.product.title }}.png" alt="product">
+                                </div>
+                                <div class="product-info d-flex flex-column justify-content-center">
+                                    <p class="text">{{ item.product|title }}</p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="edit-product d-flex flex-column align-items-center justify-content-center">
+                            <p class="m-0 text">${{ item.price }}</p>
+                            <p class="m-0 text">{{ item.quantity }}x</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <p class="text">SUBTOTAL</p>
+                    <p class="text">${{order.subtotal}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">SHIPPING ({{order.get_shipping_method_display}})</p>
+                    <p class="text">${{order.shipping}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">DONATION ({{order.get_donation_percent_display}})</p>
+                    <p class="text">$<span id="donation-cost">{{order.donation}}</span></p>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <p class="text">TOTAL</p>
+                    <p class="text">$<span id="total">{{order.total}}</span></p>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="charity-text d-flex align-items-center p-3">
+                        <p class="lead text-center m-auto">$<span id="charity-total">{{order.charity}}</span> of your order goes to helping transform children's lives with safe water!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="summary col-md-6 d-flex justify-content-center mt-5 mt-md-0">
+        <div class="summary-bg bg-white p-5">
+            <div class="summary-container d-flex flex-column gap-2">
+                <div class="d-flex justify-content-start">
+                    <h3>Order Details</h3>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <p class="text">Date ordered</p>
+                    <p class="text">{{order.created}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">Customer Name</p>
+                    <p class="text">{{order.full_name}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">Address</p>
+                    <p class="text">{{order.address}} {{order.unit_no}} {{order.postcode}}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">Email</p>
+                    <p class="text">{{order.email}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">Contact Number</p>
+                    <p class="text">{{order.phone}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">I want my order by...</p>
+                    <p class="text">{{order.dateby}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text">Paid by</p>
+                    <p class="text">{{order.get_payment_method_display}}</p>
+                </div>
+                <div class="mx-auto">
+                    <a class="btn btn-gradient btn-continue" href="{% url "account:dashboard" %}">View Dashboard</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+{% endblock %}
